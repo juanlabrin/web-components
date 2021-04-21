@@ -45,6 +45,8 @@ class DynamicStagesForm extends HTMLElement {
         var nextButton = document.createElement('button');
         var span = document.createElement('span');
 
+        var sroot = this._shadowRoot;
+
         span.innerHTML = 'Stage '+id;
 
         if(id < this.$stages-1){
@@ -52,7 +54,9 @@ class DynamicStagesForm extends HTMLElement {
             nextButton.setAttribute('next', id+1);
             nextButton.addEventListener('click', function(e){
                 e.preventDefault();
-                console.log(this.getAttribute('next'));
+                var n = this.getAttribute('next');
+                this.parentElement.classList.add('d-none');
+                sroot.querySelector('#stage-'+n).classList.remove('d-none');
             });
         } else {
             nextButton.innerHTML = 'Save';
@@ -63,7 +67,7 @@ class DynamicStagesForm extends HTMLElement {
             });            
         }
         
-        stage.setAttribute('id', id);
+        stage.setAttribute('id', 'stage-'+id);
         stage.appendChild(nextButton);
         stage.appendChild(span);
 
@@ -94,7 +98,6 @@ class DynamicStagesForm extends HTMLElement {
         }
     }
 
-    
 }
 
 customElements.define('dynamic-stages-form', DynamicStagesForm);
