@@ -5,9 +5,45 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dynamic Stages Form</title>
-    <script src="dynamic-stages-form.js"></script>
+    <script type="module" src="dynamic-stages-form.js"></script>
 </head>
 <body>
-    <dynamic-stages-form stages="5"></dynamic-stages-form>
+    <dynamic-stages-form></dynamic-stages-form>
 </body>
+<script>
+    const dsf = document.querySelector('dynamic-stages-form');
+    import('./dynamic-stages-form.js').then(() => {
+        dsf.stages = [
+            {
+                element: 'input',
+                type: 'text',
+                name: 'my-input-1',
+                label: 'My Label 1',
+                value: ''
+            },
+            {
+                element: 'input',
+                type: 'text',
+                name: 'my-input-2',
+                label: 'My Label 2',
+                value: ''
+            },
+            {
+                element: 'select',
+                type: '',
+                name: 'my-input-3',
+                label: 'My Label 3',
+                value: ''
+            },
+            {
+                element: 'input',
+                type: 'text',
+                name: 'my-input-4',
+                label: 'My Label 4',
+                value: ''
+            },
+        ];
+    });
+    
+</script>
 </html>
