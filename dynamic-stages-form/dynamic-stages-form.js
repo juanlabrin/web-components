@@ -12,11 +12,11 @@ template.innerHTML = `
 
 class DynamicStagesForm extends HTMLElement {
 
-    static get observedAttributes(){
+    static get observedAttributes() {
         return ['stages', 'stageSettings'];
     }
 
-    constructor(){
+    constructor() {
         super();
         this._componentName = 'Dynamic Stages Form 1.0';
         this._componentAuthor = 'Juan Paulo Labrin (codigoweb.cl)';
@@ -31,54 +31,55 @@ class DynamicStagesForm extends HTMLElement {
         this.$stages = [];
     }
 
-    _drawStage(id, stageSettings){
+    _drawStage(id, stageSettings) {
         var sroot = this._shadowRoot;
-        var stage = document.createElement('dsf-stage');   
+        var stage = document.createElement('dsf-stage');
 
-        if (id < this.$stages.length-1){
-            stage.$stageButton.setAttribute('next', id+1);
+        if (id < this.$stages.length - 1) {
+            stage.$stageButton.setAttribute('next', id + 1);
             stage.$stageButton.innerHTML = 'Next';
-            stage.$stageButton.addEventListener('click', function(e){
-                e.preventDefault();                
+            stage.$stageButton.addEventListener('click', function (e) {
+                e.preventDefault();
                 stage.classList.add('d-none');
-                var next = 'stage-'+this.getAttribute('next');
+                var next = 'stage-' + this.getAttribute('next');
                 sroot.getElementById(next).classList.remove('d-none');
             });
         } else {
             stage.$stageButton.setAttribute('save', true);
             stage.$stageButton.innerHTML = 'Save';
-            stage.$stageButton.addEventListener('click', function(e){
+            stage.$stageButton.addEventListener('click', function (e) {
                 e.preventDefault();
                 console.log(this.getAttribute('save'));
+                alert('Form saved: ' + this.getAttribute('save'));
             });
-        } 
-  
-        stage.$stageSettings = stageSettings;
-        stage.setAttribute('id', 'stage-'+id);
+        }
 
-        if(id!=0)
+        stage.$stageSettings = stageSettings;
+        stage.setAttribute('id', 'stage-' + id);
+
+        if (id != 0)
             stage.classList.add('d-none');
 
         return stage;
     }
 
-    _addStages(stages){ 
-        for(var s=0; s<stages; s++){   
+    _addStages(stages) {
+        for (var s = 0; s < stages; s++) {
             // console.log(this.$stages[s]);         
             this.$form.append(this._drawStage(s, this.$stages[s]));
-        }    
+        }
     }
 
-    get stages(){
+    get stages() {
         return this.$stages;
     }
 
-    set stages(values){
+    set stages(values) {
         this.$stages = values;
         this._addStages(this.$stages.length);
     }
 
-    connectedCallback(){
+    connectedCallback() {
         console.log('DSF Connected!');
     }
 
