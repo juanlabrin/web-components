@@ -1,8 +1,9 @@
 const template = document.createElement('template');
+
 template.innerHTML = `
 <style>
-@import "/css/bootstrap.min.css";
-@import "/css/all.css";
+@import "/node_modules/bootstrap/dist/css/bootstrap.min.css";
+@import "/node_modules/@fortawesome/fontawesome-free/css/all.min.css";
 </style>
 <div class="alert alert-info d-none">
     <span id="alert-content"></span>
@@ -53,7 +54,9 @@ class DynamicDataTable extends HTMLElement {
     }
 
     _drawTable(data) {
-        console.log(data);      
+        if(this.$columns.length == 0){
+            this.$columns = Object.keys(data[0]);
+        }
 
         data.forEach((element, key) => {
             // console.log(element, key);
@@ -65,14 +68,15 @@ class DynamicDataTable extends HTMLElement {
         });
 
         const head = this.$dynamicTable.createTHead().insertRow(0);
+        
         this.$columns.forEach((column, i) => {
-            head.insertCell(i).outerHTML = '<th>' + column.toUpperCase() + '</th>';
+            head.insertCell(i).outerHTML = '<th><span>' + column.toUpperCase() + '</span><i class="fas fa-sort-up"></i><i class="fas fa-sort-down"></i></th>';
         });
         head.insertCell(this.$columns.length).outerHTML = '<th>ACTIONS</th>';
     }
 
     _loadData(url) {
-        console.log(url);
+        // console.log(url);
         fetch(url)
             .then(res => {
                 if (res.ok) {
@@ -116,7 +120,7 @@ class DynamicDataTable extends HTMLElement {
     }
 
     connectedCallback() {
-        // console.log(this._componentName + ' connected!');
+        console.log(this._componentName + ' connected!');
         if (this.hasAttribute('data-url')) {
             // console.log(this.dataUrl);
             this._loadData(this.dataUrl);
